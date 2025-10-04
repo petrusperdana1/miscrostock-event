@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender Konten untuk Microstock 2025 (Versi Lengkap)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .month-filter {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .month-filter:hover {
+            transform: scale(1.05);
+            background-color: #0e7490; /* cyan-700 */
+        }
+        .month-filter.active {
+            background-color: #06b6d4; /* cyan-500 */
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+        .event-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #334155; /* slate-700 */
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #06b6d4; /* cyan-500 */
+        }
+        /* Styling for scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; /* slate-900 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-6">
+            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-2">Kalender Konten Microstock 2025</h1>
+            <p class="text-lg text-slate-400">Panduan strategis bulanan Anda untuk tahun 2025.</p>
+        </header>
+
+        <div class="mb-8 px-2">
+            <div id="month-filter-container" class="flex items-center justify-start lg:justify-center gap-3 p-3 bg-slate-800/50 rounded-full overflow-x-auto">
+                </div>
+        </div>
+
+        <main id="event-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>Versi 2.3 | Daftar Event Sangat Lengkap.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- DATABASE EVENT SANGAT LENGKAP UNTUK 2025 (SUDAH DIGABUNGKAN) ---
+        const eventsData = [
+            // JANUARI
+            {
+                month: 1, icon: '🎉', name: 'New Year 2025', eventTime: '1 Januari 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Okt - Des 2024)',
+                assetIdeas: { photo: 'Kembang api, orang bersulang sampanye, kalender.', vector: 'Desain "Happy New Year 2025", ikon jam.' },
+                keywords: 'new year, 2025, happy new year, celebration, fireworks, party, resolution, eve'
+            },
+            {
+                month: 1, icon: '🐍', name: 'Chinese New Year', eventTime: '29 Januari 2025',
+                targetMarket: 'Global, terutama Asia', uploadTime: 'Sudah Lewat (Ideal: Nov 2024 - Jan 2025)',
+                assetIdeas: { photo: 'Dekorasi Imlek, keluarga Tionghoa berkumpul, barongsai.', vector: 'Shio Ular Kayu (2025), pola oriental, ikon lampion.' },
+                keywords: 'chinese new year, lunar new year, year of the snake, cny, gong xi fa cai, lantern'
+            },
+            // FEBRUARI
+            {
+                month: 2, icon: '🏈', name: 'Super Bowl Sunday', eventTime: '~9 Februari 2025',
+                targetMarket: 'Amerika Serikat', uploadTime: 'Sudah Lewat (Ideal: Des 2024 - Jan 2025)',
+                assetIdeas: { photo: 'Fans menonton TV, makanan pesta (sayap ayam, pizza), stadion.', vector: 'Ikon American football, helm, template undangan pesta.' },
+                keywords: 'super bowl, american football, nfl, party, fans, wings, stadium'
+            },
+            {
+                month: 2, icon: '💖', name: 'Valentine\'s Day', eventTime: '14 Februari 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Des 2024 - Jan 2025)',
+                assetIdeas: { photo: 'Pasangan makan malam romantis, mawar merah, kotak cokelat.', vector: 'Template kartu Valentine, pola hati.' },
+                keywords: 'valentine, love, heart, romance, couple, red, rose, gift, february 14'
+            },
+            {
+                month: 2, icon: '🎭', name: 'Carnival (Rio/Global)', eventTime: 'Akhir Februari 2025',
+                targetMarket: 'Brasil, Global', uploadTime: 'Sudah Lewat (Ideal: Nov - Des 2024)',
+                assetIdeas: { photo: 'Parade, penari samba, kostum warna-warni.', vector: 'Topeng festival, bulu-bulu, template poster.' },
+                keywords: 'carnival, rio de janeiro, brazil, samba, festival, parade, costume'
+            },
+            // MARET
+            {
+                month: 3, icon: '🌙', name: 'Ramadan Begins', eventTime: '~1 Maret 2025',
+                targetMarket: 'Global (Muslim)', uploadTime: 'Sudah Lewat (Ideal: Jan - Feb 2025)',
+                assetIdeas: { photo: 'Orang berbuka puasa, lentera islami (fanous), kurma, masjid.', vector: 'Kaligrafi "Ramadan Kareem", pola geometris Islam.' },
+                keywords: 'ramadan, kareem, fasting, iftar, mosque, islamic, muslim, lantern, dates'
+            },
+            {
+                month: 3, icon: '🎭', name: 'Mardi Gras', eventTime: '4 Maret 2025',
+                targetMarket: 'Global, terutama AS (New Orleans)', uploadTime: 'Sudah Lewat (Ideal: Des 2024 - Jan 2025)',
+                assetIdeas: {
+                    photo: 'Parade dengan kostum mewah, orang-orang melempar kalung manik-manik (beads), topeng hiasan close-up, suasana pesta di Bourbon Street.',
+                    vector: 'Template poster pesta Mardi Gras, pola fleur-de-lis, set ikon topeng dan terompet, skema warna ungu-hijau-emas.'
+                },
+                keywords: 'mardi gras, fat tuesday, new orleans, carnival, festival, parade, beads, mask, fleur de lis, purple green gold, celebration, bourbon street'
+            },
+            {
+                month: 3, icon: '♀️', name: 'International Women\'s Day', eventTime: '8 Maret 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Jan - Feb 2025)',
+                assetIdeas: { photo: 'Potret wanita inspiratif, wanita bekerja sama.', vector: 'Simbol wanita, ilustrasi pemberdayaan.' },
+                keywords: 'international women day, women empowerment, female, feminism, equality'
+            },
+            {
+                month: 3, icon: '🎨', name: 'Holi Festival', eventTime: '14 Maret 2025',
+                targetMarket: 'Global, terutama India & komunitas Hindu', uploadTime: 'Sudah Lewat (Ideal: Des 2024 - Jan 2025)',
+                assetIdeas: {
+                    photo: 'Potret ekspresif orang dengan wajah penuh bubuk warna, sekelompok teman saling melempar warna, detail bubuk warna di tangan.',
+                    vector: 'Latar belakang cipratan cat warna-warni (colorful splash background), template ucapan "Happy Holi", ilustrasi orang menari.'
+                },
+                keywords: 'holi, festival of colors, india, hindu, colorful, powder, celebration, indian festival, rangwali holi, holi background, fun, spring festival'
+            },
+            {
+                month: 3, icon: '🍀', name: 'St. Patrick\'s Day', eventTime: '17 Maret 2025',
+                targetMarket: 'Global (Irlandia, AS)', uploadTime: 'Sudah Lewat (Ideal: Jan - Feb 2025)',
+                assetIdeas: { photo: 'Kostum hijau, bir hijau, parade, dekorasi semanggi.', vector: 'Ikon leprechaun, pola semanggi.' },
+                keywords: 'st patrick, shamrock, clover, green, ireland, irish, leprechaun, lucky'
+            },
+            {
+                month: 3, icon: '🌸', name: 'First Day of Spring', eventTime: '~20 Maret 2025',
+                targetMarket: 'Belahan Bumi Utara', uploadTime: 'Sudah Lewat (Ideal: Jan - Feb 2025)',
+                assetIdeas: { photo: 'Bunga pertama mekar (crocus, daffodil), tunas daun baru.', vector: 'Teks "Hello Spring", ilustrasi bunga mekar.' },
+                keywords: 'first day of spring, vernal equinox, springtime, bloom, new beginnings, flowers'
+            },
+            {
+                month: 3, icon: '🕌', name: 'Eid al-Fitr / Idul Fitri', eventTime: '~31 Maret 2025',
+                targetMarket: 'Global (Muslim)', uploadTime: 'Sudah Lewat (Ideal: Feb - Mar 2025)',
+                assetIdeas: { photo: 'Keluarga bersilaturahmi, hidangan ketupat, sholat Ied.', vector: 'Kartu ucapan "Eid Mubarak", ketupat, ornamen Islami.' },
+                keywords: 'eid al fitr, eid mubarak, idul fitri, lebaran, ketupat, muslim, family'
+            },
+            // APRIL
+            {
+                month: 4, icon: '🤡', name: 'April Fools\' Day', eventTime: '1 April 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Jan - Feb 2025)',
+                assetIdeas: {
+                    photo: 'Konsep prank/lelucon (misal: donat isi mayones), ekspresi wajah kaget atau tertawa, properti lelucon seperti bantal kentut (whoopee cushion).',
+                    vector: 'Set ikon lelucon (jester hat, spring glasses), template pengumuman lucu, teks "April Fools\' Day" dengan gaya jenaka.'
+                },
+                keywords: 'april fools, joke, prank, funny, humor, surprise, silly, jester, celebration, april 1st, comedy, trick'
+            },
+            {
+                month: 4, icon: '⚕️', name: 'World Health Day', eventTime: '7 April 2025',
+                targetMarket: 'Global (Korporat, LSM)', uploadTime: 'Sudah Lewat (Ideal: Feb - Mar 2025)',
+                assetIdeas: { photo: 'Dokter & pasien, orang berolahraga, makanan sehat.', vector: 'Ikon stetoskop, jantung sehat, infografis kesehatan.' },
+                keywords: 'world health day, health, medical, wellness, doctor, hospital, exercise'
+            },
+            {
+                month: 4, icon: '🥚', name: 'Easter / Paskah', eventTime: '20 April 2025',
+                targetMarket: 'Global (Kristen)', uploadTime: 'Sudah Lewat (Ideal: Feb - Mar 2025)',
+                assetIdeas: { photo: 'Anak mencari telur Paskah, keranjang telur warna-warni.', vector: 'Ikon kelinci dan telur lucu, template "Happy Easter".' },
+                keywords: 'easter, egg, bunny, spring, holiday, religious, paschal, decoration, hunt'
+            },
+            {
+                month: 4, icon: '🌍', name: 'Earth Day', eventTime: '22 April 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Feb - Mar 2025)',
+                assetIdeas: { photo: 'Tangan menanam pohon, panel surya, daur ulang.', vector: 'Ikon daur ulang, ilustrasi planet bumi.' },
+                keywords: 'earth day, environment, save planet, ecology, recycle, nature, green energy'
+            },
+            // MEI
+            {
+                month: 5, icon: '🚀', name: 'May the 4th (Star Wars Day)', eventTime: '4 Mei 2025',
+                targetMarket: 'Global (Niche/Pop Culture)', uploadTime: 'Sudah Lewat (Ideal: Mar - Apr 2025)',
+                assetIdeas: { photo: 'Cosplay karakter, mainan lightsaber, tema luar angkasa.', vector: 'Parodi/ilustrasi Star Wars (hindari logo), background galaksi.' },
+                keywords: 'may the 4th, space, sci-fi, galaxy, lightsaber, fan, cosplay, geek'
+            },
+            {
+                month: 5, icon: '🇲🇽', name: 'Cinco de Mayo', eventTime: '5 Mei 2025',
+                targetMarket: 'Meksiko, AS', uploadTime: 'Sudah Lewat (Ideal: Mar - Apr 2025)',
+                assetIdeas: { photo: 'Makanan Meksiko (taco, guacamole), kostum tradisional.', vector: 'Ikon sombrero, kaktus, marakas.' },
+                keywords: 'cinco de mayo, mexico, mexican, festival, party, fiesta, taco'
+            },
+            {
+                month: 5, icon: '👩‍👧‍👦', name: 'Mother\'s Day', eventTime: '11 Mei 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Mar - Apr 2025)',
+                assetIdeas: { photo: 'Anak memberi hadiah pada ibu, potret multi-generasi.', vector: 'Template kartu ucapan, desain bunga.' },
+                keywords: 'mother day, mother, mom, family, love, gift, flowers, children'
+            },
+            {
+                month: 5, icon: '☸️', name: 'Vesak Day / Waisak', eventTime: '12 Mei 2025',
+                targetMarket: 'Global (Buddhis), terutama Asia', uploadTime: 'Sudah Lewat (Ideal: Feb - Mar 2025)',
+                assetIdeas: {
+                    photo: 'Prosesi pelepasan lampion di malam hari, biksu berdoa di vihara, close-up patung Buddha dengan latar belakang lembut, ritual memandikan Buddha.',
+                    vector: 'Ilustrasi bunga teratai (lotus) yang elegan, simbol Roda Dharma (Dharmachakra), siluet Candi Borobudur atau stupa lainnya saat matahari terbit/terbenam.'
+                },
+                keywords: 'vesak, waisak, buddha purnima, buddhist, buddha birthday, lantern festival, temple, lotus, dharma wheel, enlightenment, spiritual, meditation'
+            },
+            // JUNI
+            {
+                month: 6, icon: '🌱', name: 'World Environment Day', eventTime: '5 Juni 2025',
+                targetMarket: 'Global (Korporat, Pendidikan, LSM)', uploadTime: 'Sudah Lewat (Ideal: Mar - Apr 2025)',
+                assetIdeas: {
+                    photo: 'Tangan memegang bibit tanaman dengan latar bumi, konsep 3R (Reduce, Reuse, Recycle) secara visual, pembersihan sampah plastik di pantai/alam.',
+                    vector: 'Desain infografis tentang sustainability, set ikon "go green" (daun, panel surya, turbin angin), template poster kampanye lingkungan.'
+                },
+                keywords: 'world environment day, go green, eco friendly, sustainability, save the earth, ecology, recycling, renewable energy, climate action, nature conservation'
+            },
+            {
+                month: 6, icon: '👨‍👧‍👦', name: 'Father\'s Day', eventTime: '15 Juni 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Apr - Mei 2025)',
+                assetIdeas: { photo: 'Ayah bermain dengan anak, tangan ayah & anak.', vector: 'Ilustrasi "Super Dad", ikon kumis & dasi.' },
+                keywords: 'father day, father, dad, family, love, gift, son, daughter'
+            },
+            {
+                month: 6, icon: '☀️', name: 'First Day of Summer', eventTime: '~21 Juni 2025',
+                targetMarket: 'Belahan Bumi Utara', uploadTime: 'Sudah Lewat (Ideal: Apr - Mei 2025)',
+                assetIdeas: { photo: 'Matahari terbenam di pantai, es krim meleleh, orang berenang.', vector: 'Teks "Hello Summer", ikon matahari & kacamata hitam.' },
+                keywords: 'first day of summer, summer solstice, sunshine, beach, vacation, travel'
+            },
+            {
+                month: 6, icon: '🏳️‍🌈', name: 'Pride Month', eventTime: 'Juni 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Apr - Mei 2025)',
+                assetIdeas: { photo: 'Parade Pride, bendera pelangi, pasangan sesama jenis.', vector: 'Background pelangi, ikon keberagaman.' },
+                keywords: 'pride, lgbt, lgbtq, rainbow, gay, lesbian, transgender, equality, love'
+            },
+            // JULI
+            {
+                month: 7, icon: '🇨🇦', name: 'Canada Day', eventTime: '1 Juli 2025',
+                targetMarket: 'Kanada & Global', uploadTime: 'Sudah Lewat (Ideal: Mei - Jun 2025)',
+                assetIdeas: { photo: 'Bendera Kanada, daun maple merah, kembang api, perayaan.', vector: 'Template bertema Kanada, ikon berang-berang & daun maple.' },
+                keywords: 'canada day, canada, canadian, maple leaf, celebration, patriotic, july 1st'
+            },
+            {
+                month: 7, icon: '🇺🇸', name: 'USA Independence Day', eventTime: '4 Juli 2025',
+                targetMarket: 'Amerika Serikat', uploadTime: 'Sudah Lewat (Ideal: Mei - Jun 2025)',
+                assetIdeas: { photo: 'Kembang api, keluarga barbekyu, bendera AS.', vector: 'Desain bintang-garis, ikon elang botak.' },
+                keywords: '4th of july, independence day, usa, america, flag, fireworks, patriotic'
+            },
+            {
+                month: 7, icon: '🇫🇷', name: 'Bastille Day', eventTime: '14 Juli 2025',
+                targetMarket: 'Prancis, Global', uploadTime: 'Sudah Lewat (Ideal: Apr - Mei 2025)',
+                assetIdeas: {
+                    photo: 'Kembang api spektakuler di Menara Eiffel, parade militer di Champs-Élysées, orang-orang merayakan dengan bendera Prancis.',
+                    vector: 'Desain dengan warna bendera Prancis (biru, putih, merah), ilustrasi landmark Paris, teks "Vive la France" atau "14 Juillet".'
+                },
+                keywords: 'bastille day, french national day, le 14 juillet, france, paris, eiffel tower, fireworks, french flag, celebration, vive la france, revolution'
+            },
+            // AGUSTUS
+            {
+                month: 8, icon: '🇮🇩', name: 'Hari Kemerdekaan RI', eventTime: '17 Agustus 2025',
+                targetMarket: 'Indonesia & Global', uploadTime: 'Sudah Lewat (Ideal: Jun - Jul 2025)',
+                assetIdeas: { photo: 'Upacara bendera, lomba panjat pinang, dekorasi merah putih.', vector: 'Template "Dirgahayu RI ke-80", ikon pahlawan.' },
+                keywords: 'indonesia, independence day, 17 agustus, dirgahayu, kemerdekaan, merah putih'
+            },
+            {
+                month: 8, icon: '🎒', name: 'Back to School', eventTime: 'Agustus - September 2025',
+                targetMarket: 'Global (AS, Eropa)', uploadTime: 'Sudah Lewat (Ideal: Jun - Jul 2025)',
+                assetIdeas: { photo: 'Anak beragam etnis dengan tas, guru di kelas.', vector: 'Set ikon alat tulis, poster diskon.' },
+                keywords: 'back to school, education, student, teacher, classroom, stationery'
+            },
+            // SEPTEMBER
+            {
+                month: 9, icon: '🍂', name: 'Autumn / Musim Gugur', eventTime: 'September - November 2025',
+                targetMarket: 'Belahan Bumi Utara', uploadTime: 'Sudah Lewat (Ideal: Jul - Ags 2025)',
+                assetIdeas: { photo: 'Lanskap hutan oranye, keluarga di taman, kopi hangat.', vector: 'Pola seamless daun, ikon jamur & acorn.' },
+                keywords: 'autumn, fall, season, leaves, cozy, pumpkin, harvest, landscape, orange'
+            },
+            {
+                month: 9, icon: '🍺', name: 'Oktoberfest', eventTime: 'Akhir Sep - Awal Okt 2025',
+                targetMarket: 'Jerman & Global', uploadTime: 'Sudah Lewat (Ideal: Jul - Ags 2025)',
+                assetIdeas: { photo: 'Gelas bir besar, orang memakai lederhosen & dirndl, tenda pesta.', vector: 'Ikon pretzel, bir, topi Bavaria.' },
+                keywords: 'oktoberfest, beer, germany, munich, festival, party, pretzel, bavarian'
+            },
+            // OKTOBER
+            {
+                month: 10, icon: '☕', name: 'International Coffee Day', eventTime: '1 Oktober 2025',
+                targetMarket: 'Global (Kafe, Brand)', uploadTime: 'Sudah Lewat (Ideal: Ags - Sep 2025)',
+                assetIdeas: { photo: 'Latte art, biji kopi, barista membuat kopi, orang menikmati kopi.', vector: 'Ikon cangkir kopi, pola biji kopi, logo untuk kafe.' },
+                keywords: 'international coffee day, coffee, cafe, latte, espresso, barista, caffeine, cup'
+            },
+            {
+                month: 10, icon: '🧠', name: 'World Mental Health Day', eventTime: '10 Oktober 2025',
+                targetMarket: 'Global (Kesehatan, Korporat, LSM)', uploadTime: 'Sudah Lewat (Ideal: Jul - Ags 2025)',
+                assetIdeas: {
+                    photo: 'Konsep self-care (yoga, meditasi, membaca buku), orang saling mendukung/berbicara, simbol pita hijau (green ribbon) untuk kesadaran kesehatan mental.',
+                    vector: 'Ilustrasi konseptual kepala/otak dengan bunga atau pikiran positif, set ikon wellness, poster kampanye kesadaran dengan pesan positif.'
+                },
+                keywords: 'world mental health day, mental health, wellness, self care, awareness, therapy, psychology, mind, brain, support, green ribbon, positive thinking'
+            },
+            {
+                month: 10, icon: '🪔', name: 'Diwali', eventTime: '21 Oktober 2025',
+                targetMarket: 'India & Global', uploadTime: 'Sudah Lewat (Ideal: Ags - Sep 2025)',
+                assetIdeas: { photo: 'Lampu minyak (Diya), seni lantai (Rangoli), kembang api.', vector: 'Desain ornamen India, template "Happy Diwali".' },
+                keywords: 'diwali, deepavali, festival, lights, india, hindu, diya, rangoli, celebration'
+            },
+            {
+                month: 10, icon: '🎃', name: 'Halloween', eventTime: '31 Oktober 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Jul - Sep 2025)',
+                assetIdeas: { photo: 'Jack-o\'-lanterns, anak-anak trick-or-treating, pesta kostum.', vector: 'Ikon hantu, kelelawar, laba-laba.' },
+                keywords: 'halloween, pumpkin, jack o lantern, spooky, creepy, trick or treat, costume'
+            },
+            {
+                month: 10, icon: '💀', name: 'Día de los Muertos', eventTime: '31 Okt - 2 Nov 2025',
+                targetMarket: 'Meksiko, Amerika Latin', uploadTime: 'Sudah Lewat (Ideal: Ags - Sep 2025)',
+                assetIdeas: { photo: 'Altar persembahan (ofrenda), tengkorak gula (calavera), bunga marigold.', vector: 'Ilustrasi La Catrina, pola tengkorak warna-warni.' },
+                keywords: 'dia de los muertos, day of the dead, calavera, catrina, ofrenda, mexico, sugar skull'
+            },
+            // NOVEMBER
+            {
+                month: 11, icon: '🦃', name: 'Thanksgiving', eventTime: '27 November 2025',
+                targetMarket: 'AS, Kanada', uploadTime: 'Sudah Lewat (Ideal: Ags - Okt 2025)',
+                assetIdeas: { photo: 'Meja makan besar, keluarga tertawa, memanggang kalkun.', vector: 'Kartu ucapan, ikon kalkun & pai labu.' },
+                keywords: 'thanksgiving, turkey, family, dinner, gratitude, holiday, autumn, feast'
+            },
+            {
+                month: 11, icon: '🛒', name: 'Black Friday Sale', eventTime: '28 November 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Sep - Okt 2025)',
+                assetIdeas: { photo: 'Orang membawa tas belanja, close-up kartu kredit.', vector: 'Template banner "Black Friday Sale".' },
+                keywords: 'black friday, cyber monday, sale, discount, shopping, retail, ecommerce'
+            },
+            // DESEMBER
+            {
+                month: 12, icon: '🕎', name: 'Hanukkah', eventTime: '14 - 22 Desember 2025',
+                targetMarket: 'Global (Yahudi)', uploadTime: 'Sudah Lewat (Ideal: Sep - Okt 2025)',
+                assetIdeas: { photo: 'Menorah dengan lilin, gasing dreidel, donat (sufganiyot).', vector: 'Ikon Bintang Daud, menorah, template "Happy Hanukkah".' },
+                keywords: 'hanukkah, chanukah, menorah, dreidel, jewish, festival, lights'
+            },
+            {
+                month: 12, icon: '❄️', name: 'First Day of Winter', eventTime: '~21 Desember 2025',
+                targetMarket: 'Belahan Bumi Utara', uploadTime: 'Sudah Lewat (Ideal: Sep - Okt 2025)',
+                assetIdeas: { photo: 'Embun beku di jendela, salju pertama turun, lanskap beku.', vector: 'Teks "Hello Winter", ikon kepingan salju.' },
+                keywords: 'first day of winter, winter solstice, snow, frost, cold, cozy, snowflake'
+            },
+            {
+                month: 12, icon: '🎄', name: 'Christmas / Natal', eventTime: '25 Desember 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Sep - Nov 2025)',
+                assetIdeas: { photo: 'Keluarga buka kado, lanskap salju, ornamen Natal.', vector: 'Template kartu Natal, pola kepingan salju.' },
+                keywords: 'christmas, xmas, holiday, winter, tree, gift, family, snow, decoration'
+            },
+            {
+                month: 12, icon: '🎁', name: 'Boxing Day', eventTime: '26 Desember 2025',
+                targetMarket: 'Inggris Raya, Kanada, Australia, Selandia Baru', uploadTime: 'Sudah Lewat (Ideal: Sep - Okt 2025)',
+                assetIdeas: {
+                    photo: 'Konsep belanja dan diskon besar-besaran, orang membawa banyak tas belanja, tumpukan kado, keluarga bersantai setelah Natal.',
+                    vector: 'Template banner "Boxing Day Sale", ikon tumpukan hadiah, label harga diskon dengan gaya modern, background bertema belanja.'
+                },
+                keywords: 'boxing day, sale, shopping, discount, christmas, holiday sale, retail, offer, gift box, post christmas, commerce, consumerism'
+            },
+            {
+                month: 12, icon: '🥂', name: 'New Year\'s Eve', eventTime: '31 Desember 2025',
+                targetMarket: 'Global', uploadTime: 'Sudah Lewat (Ideal: Okt - Nov 2025)',
+                assetIdeas: { photo: 'Jam menunjukkan tengah malam, orang bersulang, confetti jatuh.', vector: 'Desain hitung mundur, background pesta.' },
+                keywords: 'new years eve, countdown, midnight, party, celebration, champagne, confetti'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const monthContainer = document.getElementById('month-filter-container');
+            const eventContainer = document.getElementById('event-container');
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"];
+            
+            monthNames.forEach((name, index) => {
+                const monthNumber = index + 1;
+                const button = document.createElement('button');
+                button.textContent = name;
+                button.setAttribute('data-month', monthNumber);
+                button.className = 'month-filter flex-shrink-0 bg-slate-700 text-white font-semibold py-2 px-5 rounded-full';
+                monthContainer.appendChild(button);
+            });
+
+            const createEventCard = (event) => {
+                let timeClass = 'bg-yellow-400 text-yellow-900';
+                if(event.uploadTime === 'SAATNYA UPLOAD!') {
+                    timeClass = 'bg-green-400 text-green-900 animate-pulse';
+                } else if (event.uploadTime.includes('Lewat')) {
+                     timeClass = 'bg-slate-600 text-slate-300';
+                } else if (event.uploadTime.includes('Berakhir')) {
+                    timeClass = 'bg-orange-400 text-orange-900';
+                }
+
+                return `
+                    <div class="event-card bg-slate-800 rounded-lg overflow-hidden p-5 flex flex-col h-full">
+                        <div class="flex items-center mb-4">
+                           <span class="text-3xl mr-3">${event.icon}</span>
+                            <div>
+                                <h2 class="text-xl font-bold text-white">${event.name}</h2>
+                                <p class="text-xs text-cyan-400 font-semibold">${event.eventTime}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 text-sm flex-grow">
+                             <div>
+                                <h4 class="font-bold text-slate-200 mb-1">🚀 Waktu Upload Ideal</h4>
+                                <p class="${timeClass} font-bold px-2 py-1 rounded text-center">${event.uploadTime}</p>
+                             </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-slate-200 mb-1">🎯 Target Pasar</h4>
+                                <p class="text-slate-400">${event.targetMarket}</p>
+                            </div>
+
+                            <div>
+                                <h4 class="font-bold text-slate-200 mb-1">💡 Ide Aset Kunci</h4>
+                                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                                    ${event.assetIdeas.photo ? `<li><strong>Foto:</strong> ${event.assetIdeas.photo}</li>` : ''}
+                                    ${event.assetIdeas.vector ? `<li><strong>Vektor:</strong> ${event.assetIdeas.vector}</li>` : ''}
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-bold text-slate-200 mb-1">🔑 Keywords</h4>
+                                <p class="text-slate-500 text-xs italic">${event.keywords}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderEvents = (month) => {
+                eventContainer.innerHTML = '';
+                // Menyortir event di bulan yang sama untuk konsistensi
+                const filteredEvents = eventsData
+                    .filter(e => e.month == month)
+                    .sort((a, b) => {
+                        // Mengekstrak hari untuk penyortiran
+                        const dayA = parseInt(a.eventTime.match(/\d+/));
+                        const dayB = parseInt(b.eventTime.match(/\d+/));
+                        return dayA - dayB;
+                    });
+                
+                if (filteredEvents.length === 0) {
+                    eventContainer.innerHTML = `<p class="text-center col-span-full text-slate-400">Tidak ada event besar yang tercatat untuk bulan ini.</p>`;
+                    return;
+                }
+
+                filteredEvents.forEach(event => {
+                    eventContainer.innerHTML += createEventCard(event);
+                });
+            };
+
+            const monthFilters = document.querySelectorAll('.month-filter');
+            monthFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    monthFilters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    
+                    const selectedMonth = filter.getAttribute('data-month');
+                    renderEvents(selectedMonth);
+                });
+            });
+
+            // Otomatis pilih bulan saat ini saat halaman dimuat
+            const currentMonth = new Date().getMonth() + 1;
+            const currentMonthButton = document.querySelector(`.month-filter[data-month='${currentMonth}']`);
+            
+            if(currentMonthButton){
+                currentMonthButton.click();
+                currentMonthButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+                // Jika tidak ada, klik bulan pertama
+                document.querySelector('.month-filter').click();
+            }
+        });
+    </script>
+</body>
+</html>
